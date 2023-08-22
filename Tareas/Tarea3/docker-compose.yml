@@ -1,0 +1,43 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context:  ./frontend # Carpeta donde se encuentra tu código frontend (React)
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Puedes cambiar el puerto si es necesario
+    environment:
+      - REACT_APP_API_URL=http://backend:8080  # URL de la API backend
+    networks:
+      - app-network
+
+  backend:
+    image: golang:latest
+    build:
+      context: ./Backend  # Carpeta donde se encuentra tu código backend (Go)
+    ports:
+      - "8080:8080"  # Puedes cambiar el puerto si es necesario
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=SO1T3
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=SO1T3
+    ports:
+      - "3306:3306"  # Puedes cambiar el puerto si es necesario
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

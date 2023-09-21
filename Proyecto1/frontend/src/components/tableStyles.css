@@ -1,0 +1,41 @@
+table {
+    border: 1px solid black;
+  }
+  
+  th, td {
+    border: 1px solid black;
+  }
+
+  table {
+    border: 1px solid black;
+  }
+  
+  th, td {
+    border: 1px solid black;
+  }
+
+  th, td {
+    padding: 5px;
+  }
+
+  th, td {
+    text-align: center;
+  }
+
+
+  th {
+    background-color: #494949;
+  }
+  
+  td {
+    background-color: #858585;
+  }
+
+  th, td {
+    font-family: "Arial", sans-serif;
+  }
+
+
+  th, td {
+    font-size: 16px;
+  }

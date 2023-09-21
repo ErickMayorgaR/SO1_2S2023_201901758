@@ -11,49 +11,97 @@ import "./tiempoReal.css";
 
 
 const MonitoreoEnTiempoReal = () => {
-  const [maquina, setMaquina] = useState('');
+  const [maquina, setMaquina] = useState(null);
   const [ram, setRam] = useState(0);
   const [cpu, setCpu] = useState(0);
   const [procesos, setProcesos] = useState([]);
-  const [interval, setInterval] = useState(10000); // 1 segundo
+  const [intervalo, setIntervalo] = useState(5000); // 10 segundos
   const [maxMaquinas, setMaxMaquinas] = useState(0);
+  const [pid, setPid] = useState('');
+
+
+  const handleChangeMaquina = (event) => {
+    setMaquina(parseInt(event.target.value));
+  };
+
+  const handleKillProcess = async () => {
+    const data = {
+      maquina: maquina,
+      pid: pid,
+    };
+    try {
+      const response = await axios.post(`http://localhost:5000/killProcess`, data);
+
+      if (response.status === 200) {
+        alert('Proceso eliminado correctamente.');
+      } else {
+        alert('Error al eliminar el proceso.');
+      }
+    } catch (err) {
+      console.log("Hubo un error" + err);
+
+    }
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
-      const ramData = await axios.get(
-        'http://localhost:5000/getRAMInfo',
-        {
-          params: {
-            maquina: maquina,
-          },
-        }
-      );
-      const cpuData = await axios.get(
-        'http://localhost:5000/getCPUInfo',
-        {
-          params: {
-            maquina: maquina,
-          },
-        }
-      );
+      try {
+        const vmData = await axios.get('http://localhost:5000/getVMs');
+        const maxMaquinas = vmData.data[0].Valor;
+        setMaxMaquinas(maxMaquinas);
+      } catch (err) {
+        console.log("Hubo un error" + err);
+      }
 
-      const vmData = await axios.get('http://localhost:5000/getVMs');
-      const maxMaquinas = vmData.data[0].Valor;
+      try {
+        const procesosData = await axios.get(
+          'http://localhost:5000/getPIDInfo',
+          {
+            params: {
+              maquina: maquina,
+            },
+          }
+        );
+        setProcesos(procesosData.data);
+      } catch (err) {
+        setProcesos([]);
 
-      setMaxMaquinas(maxMaquinas);
-      console.log(maxMaquinas, "numero maximo de maquinas");
+        console.log("Hubo un error" + err);
 
-      setRam(ramData.data[0].porcentaje);
-      setCpu(cpuData.data[0].porcentaje);
-      // setProcesos(procesosData.data);
+      }
+
+      try {
+        const ramData = await axios.get(
+          'http://localhost:5000/getRAMInfo',
+          {
+            params: {
+              maquina: maquina,
+            },
+          }
+        );
+        const cpuData = await axios.get(
+          'http://localhost:5000/getCPUInfo',
+          {
+            params: {
+              maquina: maquina,
+            },
+          }
+        );
+        setRam(ramData.data[0].porcentaje);
+        setCpu(cpuData.data[0].porcentaje);
+      } catch (err) {
+        console.log("Hubo un error" + err);
+      }
+
+      console.log(maquina, "maquinas");
     };
-
     fetchData();
 
-    const intervalId = setInterval(fetchData, interval);
+    const intervalId = setInterval(fetchData, intervalo);
 
-    return () => clearInterval(intervalId);
-  }, [interval]);
+    return () => clearInterval(intervalId); // Limpiar el intervalo cuando el componente se desmonta
+  }, [intervalo, maquina]);
 
   return (
     <div className="container">
@@ -62,8 +110,8 @@ const MonitoreoEnTiempoReal = () => {
       </div>
 
       <div className="title-container">
-      <select id="maquina">
-          {Array.from({length: maxMaquinas}, (_, i) => i + 1).map(i => (
+        <select id="maquina" onChange={handleChangeMaquina}>
+          {Array.from({ length: maxMaquinas }, (_, i) => i + 1).map(i => (
             <option key={i} value={i}>Maquina {i}</option>
           ))}
         </select>
@@ -81,6 +129,15 @@ const MonitoreoEnTiempoReal = () => {
             data={cpu}
           />
         </div>
+      </div>
+      <div className="kill-process-container">
+        <input
+          type="number"
+          placeholder="PID del proceso a eliminar"
+          value={pid}
+          onChange={(event) => setPid(event.target.value)}
+        />
+        <button onClick={handleKillProcess}>Kill</button>
       </div>
       <div className="table-container">
         <Table

@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
+	"strconv"
 	"strings"
 	"time"
 
@@ -34,12 +36,13 @@ func main() {
 		for {
 			sendRAMInfo()
 			sendUsageCPU()
-			<-time.After(10 * time.Second)
+			<-time.After(10000 * time.Second)
 		}
 
 	}()
 
 	http.HandleFunc("/getPIDCPU", getPIDCPU)
+	http.HandleFunc("/killProcess", killProcess)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 	fmt.Println("Server started on :8080")
@@ -105,6 +108,25 @@ func sendUsageCPU() {
 
 }
 
+func sendInfo(info []byte, url string) {
+
+	req, err := http.NewRequest("POST", "http://localhost:5000"+url, bytes.NewBuffer(info))
+	req.Header.Set("Content-Type", "application/json")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// Realiza la petición
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(resp.Status)
+}
+
 func getPIDCPU(w http.ResponseWriter, r *http.Request) {
 	data, err := os.ReadFile("/proc/cpu_201901758")
 	if err != nil {
@@ -142,21 +164,47 @@ func getPIDCPU(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
-func sendInfo(info []byte, url string) {
-
-	req, err := http.NewRequest("POST", "http://localhost:5000"+url, bytes.NewBuffer(info))
-	req.Header.Set("Content-Type", "application/json")
-	if err != nil {
-		fmt.Println(err)
+func killProcess(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		PID int `json:"pid"`
+	}
+	err1 := json.NewDecoder(r.Body).Decode(&body)
+	if err1 != nil {
+		// Enviar una respuesta de error personalizada
+		data := struct {
+			Status string `json:"status"`
+			Error  string `json:"error"`
+		}{
+			Status: "error",
+			Error:  err1.Error(),
+		}
+		json.NewEncoder(w).Encode(data)
 		return
 	}
 
-	// Realiza la petición
-	resp, err := http.DefaultClient.Do(req)
+	// Ejecutar el comando kill -9 PID
+	err := exec.Command("kill", "-9", strconv.Itoa(body.PID)).Run()
 	if err != nil {
-		fmt.Println(err)
+		// Enviar una respuesta de error personalizada
+		data := struct {
+			Status string `json:"status"`
+			Error  string `json:"error"`
+		}{
+			Status: "error",
+			Error:  "Error al eliminar PID: " + err.Error(),
+		}
+		json.NewEncoder(w).Encode(data)
 		return
 	}
 
-	fmt.Println(resp.Status)
+	// Enviar una respuesta de éxito
+	data := struct {
+		Status  string `json:"status"`
+		Mensaje string `json:"mensaje"`
+	}{
+		Status:  "ok",
+		Mensaje: "Proceso eliminado exitosamente",
+	}
+	json.NewEncoder(w).Encode(data)
+
 }

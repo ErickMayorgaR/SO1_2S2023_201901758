@@ -16,6 +16,8 @@ router.get('/getRamInfo',info.getRamInfo);
 router.get('/getCPUInfo',info.getCPUInfo);
 router.post('/insertCPUInformation',info.insertCPUInformation);
 router.post('/insertRAMInformation',info.insertRAMInformation);
+router.get('/getVMs',info.getVMs);
+
 
 
 module.exports = router;

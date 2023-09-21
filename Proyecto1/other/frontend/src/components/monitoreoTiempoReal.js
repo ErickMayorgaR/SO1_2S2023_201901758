@@ -1,7 +1,10 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Graph from './Graph';
-import Table from './Table';
+import Table from "./Table";
+
 
 const MonitoreoEnTiempoReal = () => {
   const [maquina, setMaquina] = useState('');
@@ -10,12 +13,14 @@ const MonitoreoEnTiempoReal = () => {
   const [procesos, setProcesos] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/monitoreo/en-tiempo-real').then((res) => {
-      setMaquina(res.data.maquina);
-      setRam(res.data.ram);
-      setCpu(res.data.cpu);
-      setProcesos(res.data.procesos);
+    axios.get('http://localhost:5000/getRAMInfo').then((res) => {
+      setMaquina(res.data.porcentaje);
     });
+
+    axios.get('http://localhost:5000/getCPUInfo').then((res) => {
+      setMaquina(res.data.porcentaje);
+    });
+
   }, []);
 
   return (

@@ -2,9 +2,37 @@ const connection = require('./database');
 
 var direcciones = [];
 
+async function getVMs(req, res) {
+    try{
+        const query = `SELECT DISTINCT ip FROM (SELECT ip FROM RAM LIMIT 250) AS subquery;`;
+
+        const result = await executeQuery(query);
+
+        direcciones = null;
+        direcciones = [];
+        // Iterar sobre los resultados y agregar las direcciones al arreglo
+        result[0].forEach((row, index) => {
+            direcciones.push({ [index + 1]: row.ip });
+        });
+
+        // Obtener el número máximo de elementos
+        const maxElements = Math.max(...direcciones.map(item => Object.keys(item)[0]));
+
+        // Filtrar el arreglo para obtener solo el elemento con el número máximo
+        const filteredArray = direcciones.filter(item => Object.keys(item)[0] === maxElements.toString());
+
+        
+        return res.status(200).send([{"Valor" : Object.keys(filteredArray[0]).toString()}]);
+
+    }catch(error){
+        return res.status(500).send('Error al obtener datos de RAM:'+ error);
+    }
+}
+
+
 async function getRamInfo(req, res) {
     try{
-        const query = `SELECT * FROM RAM LIMIT 100`;
+        const query = `SELECT * FROM RAM ORDER BY fecha DESC LIMIT 25`;
 
         const result = await executeQuery(query);
 
@@ -18,7 +46,7 @@ async function getRamInfo(req, res) {
 
 async function getCPUInfo(req, res) {
     try{
-        const query = `SELECT *  FROM CPU LIMIT 100`;
+        const query = `SELECT *  FROM  CPU ORDER BY fecha DESC LIMIT 25`;
         
         const result = await executeQuery(query);
 
@@ -33,10 +61,9 @@ async function getCPUInfo(req, res) {
 
 async function insertCPUInformation(req, res) {
     try{
-    console.log(req.body);
-
+    const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const { UsoCPU } = req.body;
-    const query = `INSERT INTO CPU (porcentaje, fecha) VALUES (${UsoCPU}, NOW())`
+    const query = `INSERT INTO CPU (porcentaje, fecha) VALUES (${UsoCPU}, NOW(),'${clientIP}')`
 
     executeQuery(query);
 
@@ -49,10 +76,11 @@ async function insertCPUInformation(req, res) {
 
 async function insertRAMInformation(req, res) {
     try {
-        console.log(req.body);
+
+        const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
         const { porcentajeUso } = req.body;
-        const query = `INSERT INTO RAM (porcentaje, fecha) VALUES (${porcentajeUso}, NOW())`
+        const query = `INSERT INTO RAM (porcentaje, fecha) VALUES (${porcentajeUso}, NOW(), '${clientIP}')`
 
         executeQuery(query);
 
@@ -65,7 +93,6 @@ async function insertRAMInformation(req, res) {
 
 async function executeQuery(query) {
     const result = await connection.promise().execute(query);
-    console.log(result);
     return result;
 }
 
@@ -87,5 +114,6 @@ module.exports = {
     getCPUInfo,
     insertCPUInformation,
     insertRAMInformation,
-    agregarIP
+    agregarIP,
+    getVMs
 }

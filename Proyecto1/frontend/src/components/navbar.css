@@ -1,0 +1,25 @@
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    float: right;
+    margin-right: 0;
+  }
+
+  li {
+    float: left;
+    margin-right: 10px;
+    cursor: pointer;  
+    display: inline;
+
+  }
+
+  li:hover {
+    background-color: #ccc;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  

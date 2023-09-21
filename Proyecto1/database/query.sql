@@ -7,12 +7,15 @@ USE SO1Proyecto1;
 CREATE TABLE RAM (
     idRAM INT AUTO_INCREMENT PRIMARY KEY,
     porcentaje DOUBLE,
-    fecha TIMESTAMP
+    fecha TIMESTAMP,
+    ip VARCHAR(50)
 );
 
 -- Crear la tabla "CPU"
 CREATE TABLE CPU (
     idCPU INT AUTO_INCREMENT PRIMARY KEY,
     porcentaje DOUBLE,
-    fecha TIMESTAMP
+    fecha TIMESTAMP,
+    ip VARCHAR(50)
+
 );

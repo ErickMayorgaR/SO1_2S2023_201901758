@@ -1,0 +1,52 @@
+/* Estilos para la vista del monitoreo histórico */
+
+.monitoreo-historico {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #181818;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .monitoreo-historico h1 {
+    text-align: center;
+    color: white;
+  }
+  
+  .monitoreo-historico .graficas-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .monitoreo-historico .grafica-container {
+    flex: 0 0 48%; /* Ancho del contenedor de gráficas (con espacio entre ellas) */
+    margin-bottom: 20px; /* Espacio entre las gráficas */
+    background-color: #181818;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .monitoreo-historico .grafica-container h3 {
+    text-align: center;
+    color: white;
+  }
+
+ 
+  .navbar-container {
+    background-color: #333333;
+    padding: 10px;
+    float: right;
+    width: 100%;
+    margin-top: 10px;
+
+  }
+
+ 
+  
+  

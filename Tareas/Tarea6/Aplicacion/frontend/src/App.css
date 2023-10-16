@@ -1,0 +1,59 @@
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.album-form {
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.album-form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.album-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.album-form button {
+  padding: 8px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.album-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.album-table th,
+.album-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.album-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.album-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

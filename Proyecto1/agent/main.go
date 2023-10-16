@@ -12,6 +12,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/joho/godotenv"
+	"github.com/rs/cors"
+
 	"github.com/shirou/gopsutil/cpu"
 )
 
@@ -32,17 +35,26 @@ type PIDCPU struct {
 
 func main() {
 
+	if err := godotenv.Load(); err != nil {
+		log.Fatalln(err)
+	}
+
 	go func() {
 		for {
 			sendRAMInfo()
 			sendUsageCPU()
-			<-time.After(10000 * time.Second)
+			<-time.After(1 * time.Second)
 		}
 
 	}()
 
-	http.HandleFunc("/getPIDCPU", getPIDCPU)
-	http.HandleFunc("/killProcess", killProcess)
+	corsOptions := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "POST"},
+	})
+
+	http.Handle("/getPIDCPU", corsOptions.Handler(http.HandlerFunc(getPIDCPU)))
+	http.Handle("/killProcess", corsOptions.Handler(http.HandlerFunc(killProcess)))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 	fmt.Println("Server started on :8080")
@@ -109,8 +121,9 @@ func sendUsageCPU() {
 }
 
 func sendInfo(info []byte, url string) {
+	direccionServer := os.Getenv("direccionServer")
 
-	req, err := http.NewRequest("POST", "http://localhost:5000"+url, bytes.NewBuffer(info))
+	req, err := http.NewRequest("POST", "http://"+direccionServer+":5000"+url, bytes.NewBuffer(info))
 	req.Header.Set("Content-Type", "application/json")
 	if err != nil {
 		fmt.Println(err)

@@ -30,7 +30,7 @@ const MonitoreoEnTiempoReal = () => {
       pid: pid,
     };
     try {
-      const response = await axios.post(`http://localhost:5000/killProcess`, data);
+      const response = await axios.post(`http://35.215.42.241:5000/killProcess`, data);
 
       if (response.status === 200) {
         alert('Proceso eliminado correctamente.');
@@ -47,7 +47,7 @@ const MonitoreoEnTiempoReal = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const vmData = await axios.get('http://localhost:5000/getVMs');
+        const vmData = await axios.get('http://35.215.42.241:5000/getVMs');
         const maxMaquinas = vmData.data[0].Valor;
         setMaxMaquinas(maxMaquinas);
       } catch (err) {
@@ -56,7 +56,7 @@ const MonitoreoEnTiempoReal = () => {
 
       try {
         const procesosData = await axios.get(
-          'http://localhost:5000/getPIDInfo',
+          'http://35.215.42.241:5000/getPIDInfo',
           {
             params: {
               maquina: maquina,
@@ -73,7 +73,7 @@ const MonitoreoEnTiempoReal = () => {
 
       try {
         const ramData = await axios.get(
-          'http://localhost:5000/getRAMInfo',
+          'http://35.215.42.241:5000/getRAMInfo',
           {
             params: {
               maquina: maquina,
@@ -81,7 +81,7 @@ const MonitoreoEnTiempoReal = () => {
           }
         );
         const cpuData = await axios.get(
-          'http://localhost:5000/getCPUInfo',
+          'http://35.215.42.241:5000/getCPUInfo',
           {
             params: {
               maquina: maquina,

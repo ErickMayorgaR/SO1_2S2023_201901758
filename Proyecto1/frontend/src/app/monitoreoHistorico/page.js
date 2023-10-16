@@ -27,12 +27,12 @@ const MonitoreoHistorico = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const vmData = await axios.get('http://localhost:5000/getVMs');
+      const vmData = await axios.get('http://35.215.42.241:5000/getVMs');
       const maxMaquinas = vmData.data[0].Valor;
       setMaxMaquinas(maxMaquinas);
 
       const ramData = await axios.get(
-        'http://localhost:5000/getRAMInfo',
+        'http://35.215.42.241:5000/getRAMInfo',
         {
           params: {
             maquina: maquina,
@@ -40,7 +40,7 @@ const MonitoreoHistorico = () => {
         }
       );
       const cpuData = await axios.get(
-        'http://localhost:5000/getCPUInfo',
+        'http://35.215.42.241:5000/getCPUInfo',
         {
           params: {
             maquina: maquina,

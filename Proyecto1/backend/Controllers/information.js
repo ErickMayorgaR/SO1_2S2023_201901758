@@ -71,7 +71,7 @@ async function getPIDInfo(req, res) {
 
 async function getVMs(req, res) {
     try {
-        const query = `SELECT DISTINCT ip FROM (SELECT ip FROM RAM ORDER BY fecha DESC LIMIT 2500) AS subquery;`;
+        const query = `SELECT DISTINCT ip FROM (SELECT ip FROM RAM ORDER BY fecha DESC LIMIT 100) AS subquery;`;
 
         const result = await executeQuery(query);
 

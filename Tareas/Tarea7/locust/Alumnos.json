@@ -1,0 +1,154 @@
+[
+    {
+      "carnet": 201628906,
+      "nombre": "Jillian Hegel",
+      "curso": "SO1",
+      "nota": 90,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 202107969,
+      "nombre": "Collete Mathivat",
+      "curso": "SO1",
+      "nota": 85,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 202319409,
+      "nombre": "Jerald Pawnsford",
+      "curso": "SO1",
+      "nota": 80,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 202325291,
+      "nombre": "Michal Dyka",
+      "curso": "SO1",
+      "nota": 75,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 201614382,
+      "nombre": "Samuel Pover",
+      "curso": "SO1",
+      "nota": 70,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 201214847,
+      "nombre": "Marilyn Binner",
+      "curso": "SO1",
+      "nota": 65,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 202117772,
+      "nombre": "Nicol Wyldbore",
+      "curso": "SO1",
+      "nota": 60,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 202115149,
+      "nombre": "Lesly Somerbell",
+      "curso": "SO1",
+      "nota": 55,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 201822068,
+      "nombre": "Lexie Brychan",
+      "curso": "SO1",
+      "nota": 50,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 201821780,
+      "nombre": "Antonin Barnes",
+      "curso": "SO1",
+      "nota": 45,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 201216366,
+      "nombre": "Tailor Demaine",
+      "curso": "SO1",
+      "nota": 40,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 202007871,
+      "nombre": "Bond Dumbreck",
+      "curso": "SO1",
+      "nota": 35,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 202318865,
+      "nombre": "Karoly Anthiftle",
+      "curso": "SO1",
+      "nota": 30,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+      "carnet": 201919742,
+      "nombre": "Linea Dace",
+      "curso": "SO1",
+      "nota": 25,
+      "semestre": "2S",
+      "year": 2023
+    },
+    {
+        "carnet": 202325168,
+        "nombre": "Cecilius Whitesel",
+        "curso": "SO1",
+        "nota": 20,
+        "semestre": "2S",
+        "year": 2023
+      },
+      {
+        "carnet": 201524132,
+        "nombre": "Ivy Loisi",
+        "curso": "SO1",
+        "nota": 15,
+        "semestre": "2S",
+        "year": 2023
+      },
+      {
+        "carnet": 201405144,
+        "nombre": "Nathaniel Clemes",
+        "curso": "SO1",
+        "nota": 10,
+        "semestre": "2S",
+        "year": 2023
+      },
+      {
+        "carnet": 202125225,
+        "nombre": "Bertie O' Faherty",
+        "curso": "SO1",
+        "nota": 5,
+        "semestre": "2S",
+        "year": 2023
+      },
+      {
+        "carnet": 202004688,
+        "nombre": "Panchito Eckley",
+        "curso": "SO1",
+        "nota": 0,
+        "semestre": "2S",
+        "year": 2023
+      }
+    ] 

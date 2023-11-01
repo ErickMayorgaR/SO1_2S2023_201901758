@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: so1-p2-dppython
+spec: 
+  selector:
+    matchLabels:
+      app: apipython
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apipython
+    spec:
+      containers:
+        - name: contenedor-api-python
+          image: erickmayorgar/apipython-so1:1.0.0 
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "200m"
+          ports:
+            - containerPort: 3003
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: so1-p2-python-service
+spec:
+  selector:
+    app: apipython
+  ports:
+    - port: 3003
+      targetPort: 3003
+  type: LoadBalancer

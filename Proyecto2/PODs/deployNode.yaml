@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: so1-p2-dpnode
+spec: 
+  selector:
+    matchLabels:
+      app: apinode
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apinode
+    spec:
+      containers:
+        - name: contenedor-api-node
+          image: erickmayorgar/apinode-so1:1.0.0 
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "200m"
+          ports:
+            - containerPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: so1-p2-node-service
+spec:
+  selector:
+    app: apinode
+  ports:
+    - port: 4000
+      targetPort: 4000
+  type: LoadBalancer
